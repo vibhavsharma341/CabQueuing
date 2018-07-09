@@ -18,7 +18,6 @@ public class RefreshService {
 	
 	public void refresh(){
 		List<Request> listOfRequests = requestRepository.findAllByStatus("Ongoing");
-		
 		for(int i=0;i<listOfRequests.size();i++)
 		{
 			String requestTime = listOfRequests.get(i).getTimeElapsed();
