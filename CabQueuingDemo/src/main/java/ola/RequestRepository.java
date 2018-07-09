@@ -20,5 +20,7 @@ public interface RequestRepository extends CrudRepository<Request, Long> {
 	public Request save(Request request);
 	
 	public List<Request> findAll();
+	
+	public List<Request> findAllByStatus(String status);
 	   
 }

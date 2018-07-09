@@ -27,11 +27,11 @@ public class Request {
 		this.customerId = customerId;
 	}
 
-	public Long getTimeElapsed() {
+	public String getTimeElapsed() {
 		return timeElapsed;
 	}
 
-	public void setTimeElapsed(Long timeElapsed) {
+	public void setTimeElapsed(String timeElapsed) {
 		this.timeElapsed = timeElapsed;
 	}
 
@@ -53,7 +53,7 @@ public class Request {
 
 	private Integer customerId;
 
-    private Long timeElapsed;
+    private String timeElapsed;
     
     private String status;
     
