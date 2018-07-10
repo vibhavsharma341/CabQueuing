@@ -1,0 +1,1 @@
+<html>Ride Allotment Successful</html>

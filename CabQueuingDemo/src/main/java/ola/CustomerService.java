@@ -1,6 +1,5 @@
 package ola;
 
-import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +10,9 @@ public class CustomerService {
 	private RequestRepository requestRepository;
 		
 	public void registerRide(Integer customerId)
-	{Integer count = RequestCount.getInstance().getCount();
+	{
+		Integer count = RequestCount.getInstance().getCount();
 	
-		Queue<Integer> queue = CustomerQueue.getInstance().getCustomerQueue();
-		queue.add(customerId);
-		CustomerQueue.getInstance().setCustomerQueue(queue);
 		Request request = new Request();
 		request.setCustomerId(customerId);
 		request.setDriverId(null);

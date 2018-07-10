@@ -2,7 +2,6 @@ package ola;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller  // This means URL's start with /demo (after Application path)
+@Controller
 public class RequestController {
 	
 	@Autowired
@@ -18,6 +17,9 @@ public class RequestController {
 	
 	@Autowired
 	private RefreshService refreshService;
+	
+	@Autowired
+	private DriverService driverService;
 	
 	@Autowired
 	private RequestRepository requestRepository;
@@ -28,7 +30,7 @@ public class RequestController {
 		return "customer";
 	}
 	
-	@RequestMapping(value="/rideNow",method=RequestMethod.POST)
+	@RequestMapping(/*value=*/"/rideNow"/*,method=RequestMethod.POST*/)
 	public String rideNow(Map<String, Object> model,@RequestParam(value="customerId") Integer customerId) {		
 		refreshService.refresh();
 		customerService.registerRide(customerId);
@@ -41,10 +43,56 @@ public class RequestController {
         model.addAttribute("RequestList", listOfRequests);
         return "dashboard";
     }
-	/*@RequestMapping("/driver")
-	public String driver(Map<String, Object> model,@RequestParam(value="driverId") Integer driverId) {
-		//CustomerService customerService = new CustomerService();
-		System.out.println("DriverID"+driverId);
-		return "driver";
-	}*/
+	
+	@RequestMapping(value = "/driverPage", method = RequestMethod.GET)
+    public String showDriver(ModelMap model,@RequestParam(value="driverId") Integer driverId) {
+		model.addAttribute("driverId",driverId);
+		
+        return "driverPage";
+    }
+	
+	@RequestMapping(value = "/ongoing", method = RequestMethod.GET)
+    public String ongoing(ModelMap model) {
+		List<Request> listOfRequests = requestRepository.findAllByStatus("Ongoing");
+		
+        model.addAttribute("List", listOfRequests);
+        return "ongoing";
+    }
+	
+	@RequestMapping(value = "/waiting", method = RequestMethod.GET)
+    public String waiting(ModelMap model,@RequestParam(value="driverId") Integer driverId) {
+		List<Request> listOfRequests = requestRepository.findAllByStatus("Waiting");
+		model.addAttribute("driver",driverId);	
+		
+		
+        model.addAttribute("List", listOfRequests);
+        return "waiting";
+    }
+	
+	@RequestMapping(value = "/driverApp", method = RequestMethod.GET)
+    public String driverApp(ModelMap model) {
+		
+        return "driverApp";
+    }
+	
+	@RequestMapping(value = "/completed", method = RequestMethod.GET)
+    public String completed(ModelMap model) {
+		List<Request> listOfRequests = requestRepository.findAllByStatus("Completed");
+		
+        model.addAttribute("List", listOfRequests);
+        return "completed";
+    }
+	
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+    public String completed(ModelMap model,@RequestParam(value="customerId") Integer customerId,@RequestParam(value="driverId") Integer driverId) {
+		System.out.println("SELECTED "+customerId);
+		refreshService.refresh();
+		if(driverService.acceptRide(customerId,driverId))
+		return "successfulRide";
+		else
+			return "failureRide";
+       
+    }
+	
+	
 }

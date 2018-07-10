@@ -8,6 +8,7 @@
   Customer ID:<br>
   <input type="text" name="customerId" >
   <br>
+  
   <input type="submit" value="Ride Now">
 </form> 
 

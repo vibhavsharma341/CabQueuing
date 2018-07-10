@@ -15,22 +15,7 @@ public class DriverController {
 	
 	@Autowired
 	private RefreshService refreshService;
-	
-	@RequestMapping("/driver")
-	public String driver(Map<String, Object> model) {
-		refreshService.refresh();
-		return "driver";
-	}
-	
-	@RequestMapping(value="/acceptRide",method=RequestMethod.POST)
-	public String rideNow(Map<String, Object> model,@RequestParam(value="driverId") Integer driverId) {
-		refreshService.refresh();
-		if(driverService.acceptRide(driverId))
-		return "successfulRide";
-		else
-			return "failureRide";
-	}
-	
+		
 	@RequestMapping("/refresh")
 	public String refresh(Map<String, Object> model) {		
 		refreshService.refresh();
